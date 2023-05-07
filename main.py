@@ -2,7 +2,7 @@
 # extremely easily
 # we can get the information from APIs using this lib in a readable way
 import requests
-
+from  send_email import send_email
 # store the api key and url in usable variable
 api_key = "c92a3c1867644d00a6a0db54e60213c0"
 url1 = "https://newsapi.org/v2/everything?q=tesla&from=2023-04-07&sortBy=publishedAt&apiKey=c92a3c1867644d00a6a0db54e60213c0"
@@ -22,7 +22,7 @@ content = request.json()
 content:- dict_keys(['status', 'totalResults', 'articles'])
 'status': 'ok',
 'totalResults': 13725, 
-'articles': dict_keys(['source', 'author', 'title', 'description', 'url', 'urlToImage', 'publishedAt', 'content'])
+'articles': articles[0]: dict_keys(['source', 'author', 'title', 'description', 'url', 'urlToImage', 'publishedAt', 'content'])
             [{'source': {'id': None, 'name': 'Protothema.gr'}, 
               'author': None, 
               'title': 'Tesla: Άλλαξε την παραγωγή των αυτοκινήτων', 
@@ -31,13 +31,16 @@ content:- dict_keys(['status', 'totalResults', 'articles'])
               'urlToImage': 'https://i1.prth.gr/images/640x360share/files/2023-05-04/230428154238_Tesla-megacasting.jpg', 
               'publishedAt': '2023-05-06T11:30:00Z', 
               'content': # the content of the topic}
-]
+            ]
 '''
 
 # get the title and description of the contents
-
+# collect all the required data from the content dictionary to text format
+news_body = ""
 for item in content['articles']:
-    print(f'title:  {item["title"]}')
-    print(f'description:  {item["description"]}')
+    news_body = news_body + 'Title: ' + item['title'] + "\n" \
+                + 'Descr: '+ item['description'] + '\n' \
+                + 'Url  : ' + item['url'] + 2*"\n"
 
-
+# call the function for send email
+send_email(message=news_body)
