@@ -1,2 +1,2 @@
 # What this project is all about?
-This App will collect NEWS of various topics and sent them by email.
+This App will send email to me that contain news title, description and URL of the page from where it was collected.
