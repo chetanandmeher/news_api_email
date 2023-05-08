@@ -5,7 +5,7 @@ import requests
 from  send_email import send_email
 # store the api key and url in usable variable
 api_key = "c92a3c1867644d00a6a0db54e60213c0"
-url1 = "https://newsapi.org/v2/everything?q=tesla&from=2023-04-07&sortBy=publishedAt&apiKey=c92a3c1867644d00a6a0db54e60213c0"
+url1 = "https://newsapi.org/v2/everything?q=tesla&from=2023-04-08&sortBy=publishedAt&apiKey=c92a3c1867644d00a6a0db54e60213c0"
 url2 = "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=c92a3c1867644d00a6a0db54e60213c0"
 # request to the api to get the content
 request = requests.get(url1)
@@ -16,7 +16,7 @@ request = requests.get(url1)
 # NOTE :- using .json response instead of .text to get a dictionary format content
 '''
 content = request.json()
-
+# print(content)
 '''
 #************* we can check everything using the debug terminal at the break point *************#
 content:- dict_keys(['status', 'totalResults', 'articles'])
@@ -38,9 +38,12 @@ content:- dict_keys(['status', 'totalResults', 'articles'])
 # collect all the required data from the content dictionary to text format
 news_body = ""
 for item in content['articles']:
-    news_body = news_body + 'Title: ' + item['title'] + "\n" \
-                + 'Descr: '+ item['description'] + '\n' \
-                + 'Url  : ' + item['url'] + 2*"\n"
-
+    if item['title'] is not None and item['description'] is not None:
+        news_body = news_body + 'Title: ' + item['title'] + "\n" \
+                    + 'Descr: '+ item['description'] + "\n" \
+                    + 'Url  : ' + item['url'] + 2*"\n"
+news_body = "Subject: TODAY'S NEWS" + news_body
+# change the news body format to "utf-8"
+news_body = news_body.encode("utf-8")
 # call the function for send email
 send_email(message=news_body)
